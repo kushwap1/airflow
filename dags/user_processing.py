@@ -44,7 +44,7 @@ with DAG('user_processing', schedule_interval='@daily', default_args=default_arg
       task_id = 'extracting_user',
       http_conn_id = 'user_api',
       endpoint = 'api/',
-      method = 'GET'
+      method = 'GET',
       response_filter = lambda response: json.loads(response.text),
       log_response = True
   )
