@@ -43,7 +43,7 @@ with DAG('user_processing', schedule_interval='@daily', default_args=default_arg
   extracting_user = SimpleHttpOperator(
       task_id = 'extracting_user',
       http_conn_id = 'user_api',
-      endpoint = 'api/'
+      endpoint = 'api/',
       method = 'GET'
       response_filter = lambda response: json.loads(response.text),
       log_response = True
