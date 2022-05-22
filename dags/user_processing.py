@@ -9,6 +9,7 @@ from airflow.providers.http.sensors.http import HttpSensor
 from airflow.providers.http.operators.http import SimpleHttpOperator
 
 from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
 
 from datetime import datetime
 from pandas import json_normalize
@@ -17,11 +18,10 @@ import json
 
 default_args = {'start_date': datetime(2022, 1, 1)}
 
-def _processing_user(**kwargs):
-  ti = kwargs['ti']
+def _processing_user(ti):
   users = ti.xcom_pull(task_ids=['extracting_user'])
-#  if not len(users) or 'results' not in users[0]:
-#    raise ValueError("No users found")
+  if not len(users) or 'results' not in users[0]:
+    raise ValueError("No users found")
   user = users[0]['results'][0]
   processed_user = json_normalize({
     'firstname': user['name']['first'],
@@ -71,5 +71,10 @@ with DAG('user_processing', schedule_interval='@daily', default_args=default_arg
   processing_user = PythonOperator(
     task_id= 'processing_user',
     python_callable=_processing_user
+  )
+
+  storing_user = BashOperator(
+    task_id = 'storing_user'
+    bash_command = 'echo -e ".spearator ","\n.import /tmp/processed_user.csv users" | sqlite3 /home/ubuntu/airflow/airflow.db'
   )
 
