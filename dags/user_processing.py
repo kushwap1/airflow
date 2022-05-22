@@ -69,6 +69,6 @@ with DAG('user_processing', schedule_interval='@daily', default_args=default_arg
 
   processing_user = PythonOperator(
     task_id= 'processing_user',
-    python_callable= _processing_user
+    python_callable=_processing_user
   )
 
