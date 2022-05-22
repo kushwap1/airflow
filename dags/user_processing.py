@@ -21,7 +21,7 @@ def _processing_user(ti):
   users = ti.xcom_pull(task_ids=['extracting_user'])
   if not len(users) or 'results' not in users[0]:
     raise ValueError("No users found")
-  user = users[0][results][0]
+  user = users[0]['results'][0]
   processed_user = json_normalize({
     'firstname': user['name']['first'],
     'lastname': user['name']['last'],
