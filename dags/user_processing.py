@@ -20,8 +20,8 @@ default_args = {'start_date': datetime(2022, 1, 1)}
 def _processing_user(**kwargs):
   ti = kwargs['ti']
   users = ti.xcom_pull(task_ids=['extracting_user'])
-  if not len(users) or 'results' not in users[0]:
-    raise ValueError("No users found")
+#  if not len(users) or 'results' not in users[0]:
+#    raise ValueError("No users found")
   user = users[0]['results'][0]
   processed_user = json_normalize({
     'firstname': user['name']['first'],
