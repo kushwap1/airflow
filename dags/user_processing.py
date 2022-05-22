@@ -18,7 +18,7 @@ import json
 default_args = {'start_date': datetime(2022, 1, 1)}
 
 def _processing_user(ti):
-  users = ti.xcom_pull(task_ids=['extracting_user'])
+  users = ti.xcom_pull(task_ids='extracting_user')
   if not len(users) or 'results' not in users[0]:
     raise ValueError("No users found")
   user = users[0]['results'][0]
@@ -51,7 +51,7 @@ with DAG('user_processing', schedule_interval='@daily', default_args=default_arg
     ''' 
 
   )
-
+# https://randomuser.me/
   is_api_available = HttpSensor(
       task_id = 'is_api_available',
       http_conn_id = 'user_api',
