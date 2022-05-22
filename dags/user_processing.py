@@ -30,8 +30,7 @@ def _processing_user(ti):
     'password': user['login']['password'],
     'email': user['email']
   })
-  processed_user.to_csv('/tmp/processed_user.csv',index=
-  None, header=False)
+  processed_user.to_csv('/tmp/processed_user.csv',index=None, header=False)
 
 
 with DAG('user_processing', schedule_interval='@daily', default_args=default_args, catchup=False) as dag:
