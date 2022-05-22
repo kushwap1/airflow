@@ -74,7 +74,7 @@ with DAG('user_processing', schedule_interval='@daily', default_args=default_arg
   )
 
   storing_user = BashOperator(
-    task_id = 'storing_user'
+    task_id = 'storing_user',
     bash_command = 'echo -e ".spearator ","\n.import /tmp/processed_user.csv users" | sqlite3 /home/ubuntu/airflow/airflow.db'
   )
 
